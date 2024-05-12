@@ -5,24 +5,24 @@ def get_plain(data, path=''):
         if entry['status'] == 'deleted':
             result.append(
                 f"Property '{path}{key}' was removed"
-                )
+            )
         elif entry['status'] == 'added':
             value = normalize(entry['value'])
             result.append(
                 f"Property '{path}{key}' was added with value: {value}"
-                )
+            )
         elif entry['status'] == 'changed':
             value1 = normalize(entry['value1'])
             value2 = normalize(entry['value2'])
             result.append(
-                    f"Property '{path}{key}' was updated. "
-                    f"From {value1} to {value2}"
+                f"Property '{path}{key}' was updated. "
+                f"From {value1} to {value2}"
             )
         elif entry['status'] == 'parent':
             children = entry['children']
             result.append(
                 get_plain(children, path=path + f'{key}.')
-                )
+            )
 
     return '\n'.join(result)
 
