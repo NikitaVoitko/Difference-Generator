@@ -1,0 +1,28 @@
+[
+    {
+        "status": "deleted",
+        "key": "follow",
+        "value": false
+    },
+    {
+        "status": "unchanged",
+        "key": "host",
+        "value": "hexlet.io"
+    },
+    {
+        "status": "deleted",
+        "key": "proxy",
+        "value": "123.234.53.22"
+    },
+    {
+        "status": "changed",
+        "key": "timeout",
+        "value1": 50,
+        "value2": 20
+    },
+    {
+        "status": "added",
+        "key": "verbose",
+        "value": true
+    }
+]
