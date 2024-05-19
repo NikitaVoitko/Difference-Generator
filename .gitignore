@@ -7,3 +7,8 @@ coverage.xml
 bin/
 dist/
 lib/python3.12/site-packages/
+.pytest_cache/
+/gendiff/gendiff.egg-info/
+/gendiff/__pycache__/
+gendiff/scripts/__pycache__/
+.DS_Store
