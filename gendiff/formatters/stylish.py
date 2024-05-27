@@ -9,8 +9,17 @@ def make_diff(current_data, depth):
     return '\n'.join(lines)
 
 
+def create_indent(depth, minus=0):
+    return ' ' * ((4 * depth) - minus)
+
+
+def get_status(diff):
+    if 'status' in diff:
+        return diff['status']
+
+
 def make_lines(current_data, depth):
-    indent = ' ' * 4 * depth
+    indent = create_indent(depth)
     closing_indent = ' ' * 4 * (depth - 1)
     lines = []
 
@@ -27,28 +36,28 @@ def make_lines(current_data, depth):
 def add_lines(diff, depth, lines):
     status = get_status(diff)
     if status == 'deleted':
-        indent = ' ' * ((4 * depth) - 2)
+        indent = create_indent(depth, 2)
         value = normalize_value(diff['value'])
         key = '- ' + diff['key']
         lines.append(
             f'{indent}{key}: {make_diff(value, depth=depth + 1)}'
         )
     elif status == 'added':
-        indent = ' ' * ((4 * depth) - 2)
+        indent = create_indent(depth, 2)
         value = normalize_value(diff['value'])
         key = '+ ' + diff['key']
         lines.append(
             f'{indent}{key}: {make_diff(value, depth=depth + 1)}'
         )
     elif status == 'unchanged':
-        indent = ' ' * 4 * depth
+        indent = create_indent(depth)
         value = normalize_value(diff['value'])
         key = diff['key']
         lines.append(
             f'{indent}{key}: {make_diff(value, depth=depth + 1)}'
         )
     elif status == 'changed':
-        indent = ' ' * ((4 * depth) - 2)
+        indent = create_indent(depth, 2)
         value1 = normalize_value(diff['value1'])
         value2 = normalize_value(diff['value2'])
         key1 = '- ' + diff['key']
@@ -60,18 +69,14 @@ def add_lines(diff, depth, lines):
             f'{indent}{key2}: {make_diff(value2, depth=depth + 1)}'
         )
     elif status == 'parent':
-        indent = ' ' * 4 * depth
+        indent = create_indent(depth)
         children = normalize_value(diff['children'])
         key = diff['key']
         lines.append(
-            f'{indent}{key}: {make_diff(children, depth=depth + 1)}'
+            f'{create_indent(depth)}{key}: '
+            f'{make_diff(children, depth=depth + 1)}'
         )
     return lines
-
-
-def get_status(diff):
-    if 'status' in diff:
-        return diff['status']
 
 
 def normalize_value(value):
